@@ -7,7 +7,8 @@ import FeaturedMovie from "./components/FeaturedMovie";
 const App = () => {
 	const [movieList, setMovieList] = useState([]);
 	console.log("movieList", movieList);
-	const [featuredData,] = useState([]);
+	// eslint-disable-next-line no-unused-vars
+	const [featuredData, setFeaturedData] = useState([]);
 	useEffect(() => {
 		const loadAll = async () => {
 			let list = await TMDB.getHomeList();
@@ -16,10 +17,12 @@ const App = () => {
 
 			let originals = list.filter(i => i.slug === "originals");
 			console.log(originals);
-			// let randomChosen = Math.floor(Math.random() * (originals[0].items.results.length));
-			let randomChosen = Math.floor(Math.random() * (originals.length));
-
-
+			let randomChosen = Math.floor(Math.random() * (originals[0].items.results.length - 1));
+			// eslint-disable-next-line no-unused-vars
+			let chosen = originals[0].items.results[randomChosen];
+			// eslint-disable-next-line no-unused-vars
+			let chosenInfo = await TMDB.getMovieInfo(chosen.id, "tv");
+			setFeaturedData(chosenInfo);
 			console.log("randomChosen", randomChosen);
 
 		};
