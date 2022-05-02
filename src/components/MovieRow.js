@@ -45,7 +45,7 @@ const MovieRow = (props) => {
 						<div key={key} className="movieRow--item">
 							<img src={`http://image.tmdb.org/t/p/w300${item.poster_path}`} alt={item.original_title} />
 						</div>
-					))};
+					))}
 				</div>
 			</div>
 		</div>
