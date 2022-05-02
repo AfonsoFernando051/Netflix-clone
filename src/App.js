@@ -3,12 +3,16 @@ import "./App.css";
 import TMDB from "./TMDB";
 import MovieRow from "./components/MovieRow";
 import FeaturedMovie from "./components/FeaturedMovie";
+import index from "./components/Header/index";
+import Header from "./components/Header/index";
 
 const App = () => {
 	const [movieList, setMovieList] = useState([]);
 	console.log("movieList", movieList);
 	// eslint-disable-next-line no-unused-vars
-	const [featuredData, setFeaturedData] = useState([]);
+	const [featuredData, setFeaturedData] = useState(null);
+	const [blackHeader, setBlackHeader] = useState(false);
+
 	useEffect(() => {
 		const loadAll = async () => {
 			let list = await TMDB.getHomeList();
@@ -30,8 +34,26 @@ const App = () => {
 		loadAll();
 	}, []);
 
+	useEffect(() => {
+		const scrollListener = () => {
+			if (window.scrollY > 10) {
+				setBlackHeader(true);
+			}
+			else {
+				setBlackHeader(false);
+			}
+		}
+
+		window.addEventListener(`scroll`, scrollListener);
+		return () => {
+			window.removeEventListener(`scroll`, scrollListener);
+		}
+	}, [])
+
 	return (
 		<div className="page">
+
+			<Header black={blackHeader} />
 
 			{featuredData &&
 				<FeaturedMovie item={featuredData} />
@@ -44,7 +66,21 @@ const App = () => {
 					</>
 				))}
 			</section>}
+
+			<footer>
+				Feito com <span role="img" aria-label="coração">❤</span> por Fernando Afonso.
+				Direitos de imagem para Netflix <br />
+				Dados pegos pelo site Themoviedv.org
+			</footer>
+
+			{movieList.length <= 0 &&
+				<div className="loading">
+					<img src="https://media.filmelier.com/noticias/br/2020/03/Netflix_LoadTime.gif" alt="Carregando" />
+				</div>
+			}
 		</div>
+
+
 	);
 };
 
