@@ -17,7 +17,12 @@ header.black{
 }
 
 .header--logo{
-	height: 60px;
+	display: flex;
+	align-items: center;
+	height: 70px;
+}
+.header--logo a{
+	height: 70%;
 }
 .header--logo img{
 	height: 100%;
